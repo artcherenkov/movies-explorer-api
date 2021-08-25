@@ -1,14 +1,14 @@
 const router = require("express").Router();
-
 const { login, createUser, logout } = require("../controllers/auth");
+const { validateAuth } = require("../validation/auth");
 
-// GET /signin
-router.post("/signin", login);
+// POST /signin
+router.post("/signin", validateAuth, login);
 
 // POST /signup
-router.post("/signup", createUser);
+router.post("/signup", validateAuth, createUser);
 
-// DELETE /signout
+// POST /signout
 router.post("/signout", logout);
 
 module.exports = router;

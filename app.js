@@ -3,8 +3,10 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
+const { errors } = require("celebrate");
 
 const auth = require("./middlewares/auth");
+const error = require("./middlewares/error");
 const router = require("./routes");
 const NotFoundError = require("./errors/not-found");
 const UnauthorizedError = require("./errors/unauthorized");
@@ -30,5 +32,8 @@ app.use(auth, (req) => {
   }
   throw new NotFoundError("Ресурс не найден");
 });
+
+app.use(error);
+app.use(errors());
 
 app.listen(PORT, () => console.log(`Сервер запущен на порту ${PORT}`));
