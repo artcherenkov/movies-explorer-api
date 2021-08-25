@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const { errors } = require("celebrate");
+const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const auth = require("./middlewares/auth");
 const error = require("./middlewares/error");
@@ -23,6 +24,7 @@ mongoose.connect(DB_URL, {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(requestLogger);
 
 app.use("/", router);
 
@@ -32,6 +34,8 @@ app.use(auth, (req) => {
   }
   throw new NotFoundError("Ресурс не найден");
 });
+
+app.use(errorLogger);
 
 app.use(error);
 app.use(errors());
