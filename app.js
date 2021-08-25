@@ -4,10 +4,11 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const { errors } = require("celebrate");
-const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const auth = require("./middlewares/auth");
 const error = require("./middlewares/error");
+const cors = require("./middlewares/cors");
+const { requestLogger, errorLogger } = require("./middlewares/logger");
 const router = require("./routes");
 const NotFoundError = require("./errors/not-found");
 const UnauthorizedError = require("./errors/unauthorized");
@@ -25,6 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(requestLogger);
+app.use(cors);
 
 app.use("/", router);
 
