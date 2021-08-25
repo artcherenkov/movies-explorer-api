@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const { errors } = require("celebrate");
+const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
 
 const auth = require("./middlewares/auth");
 const error = require("./middlewares/error");
@@ -16,6 +18,11 @@ const UnauthorizedError = require("./errors/unauthorized");
 const PORT = process.env.PORT || 3000;
 const DB_URL = process.env.DB_URL || "mongodb://localhost:27017/bitfilmsdb";
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+});
+
 const app = express();
 mongoose.connect(DB_URL, {
   useNewUrlParser: true,
@@ -25,7 +32,9 @@ mongoose.connect(DB_URL, {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(limiter);
 app.use(requestLogger);
+app.use(helmet());
 app.use(cors);
 
 app.use("/", router);
