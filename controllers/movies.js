@@ -12,7 +12,7 @@ module.exports.getMovies = (req, res, next) => {
 };
 
 module.exports.postMovie = (req, res, next) => {
-  Movie.create({})
+  Movie.create({ ...req.body, owner: req.user._id })
     .then((m) => res.send({ data: m }))
     .catch(next);
 };
