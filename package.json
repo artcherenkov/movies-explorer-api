@@ -15,12 +15,14 @@
   },
   "homepage": "https://github.com/artcherenkov/movies-explorer-api#readme",
   "scripts": {
-    "lint": "npx prettier --write . && npx eslint . --fix",
+    "lint": "npx prettier --write . && npx eslint . --fix && git add -A .",
     "dev": "nodemon app.js",
     "start": "node app.js"
   },
   "dependencies": {
+    "bcryptjs": "2.4.3",
     "express": "4.17.1",
+    "jsonwebtoken": "8.5.1",
     "mongoose": "6.0.0",
     "validator": "13.6.0"
   },
