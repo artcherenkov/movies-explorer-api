@@ -48,7 +48,7 @@ app.use(auth, (req) => {
 
 app.use(errorLogger);
 
-app.use(error);
 app.use(errors());
+app.use(error);
 
 app.listen(PORT, () => console.log(`Сервер запущен на порту ${PORT}`));
