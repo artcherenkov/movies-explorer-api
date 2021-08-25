@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { getUserInfo, patchUserInfo } = require("../controllers/movies");
+const { getUserInfo, patchUserInfo } = require("../controllers/users");
 const { validateProfileData } = require("../validation/users");
 
 // GET /users/me
