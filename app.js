@@ -4,12 +4,12 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const { errors } = require("celebrate");
-const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 
 const auth = require("./middlewares/auth");
 const error = require("./middlewares/error");
 const cors = require("./middlewares/cors");
+const limiter = require("./middlewares/limiter");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 const router = require("./routes");
 const NotFoundError = require("./errors/not-found");
@@ -17,11 +17,6 @@ const UnauthorizedError = require("./errors/unauthorized");
 
 const PORT = process.env.PORT || 3000;
 const DB_URL = process.env.DB_URL || "mongodb://localhost:27017/bitfilmsdb";
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-});
 
 const app = express();
 mongoose.connect(DB_URL, {
