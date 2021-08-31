@@ -6,14 +6,11 @@ require('dotenv').config();
 const { errors } = require('celebrate');
 const helmet = require('helmet');
 
-const auth = require('./middlewares/auth');
 const error = require('./middlewares/error');
 const cors = require('./middlewares/cors');
 const limiter = require('./middlewares/limiter');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes');
-const NotFoundError = require('./errors/not-found');
-const UnauthorizedError = require('./errors/unauthorized');
 
 const PORT = process.env.PORT || 3000;
 const DB_URL = process.env.DB_URL || 'mongodb://localhost:27017/bitfilmsdb';
@@ -33,13 +30,6 @@ app.use(helmet());
 app.use(cors);
 
 app.use('/', router);
-
-app.use(auth, (req) => {
-  if (!req.user) {
-    throw new UnauthorizedError('Необходима авторизация');
-  }
-  throw new NotFoundError('Ресурс не найден');
-});
 
 app.use(errorLogger);
 
