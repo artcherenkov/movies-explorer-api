@@ -11,7 +11,7 @@ const movieSchema = {
     image: Joi.string().required().custom(isUrl, 'link'),
     trailer: Joi.string().required().custom(isUrl, 'link'),
     thumbnail: Joi.string().required().custom(isUrl, 'link'),
-    movieId: Joi.string().required(),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),
