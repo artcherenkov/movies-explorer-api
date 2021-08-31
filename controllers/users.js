@@ -50,8 +50,9 @@ module.exports.getUserInfo = (req, res, next) => {
             'При получении данных о пользователе передан некорректный _id',
           ),
         );
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 module.exports.patchUserInfo = (req, res, next) => {

@@ -37,7 +37,8 @@ module.exports.deleteMovieById = (req, res, next) => {
         next(
           new BadRequestError('При удалении фильма передан некорректный _id.'),
         );
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
