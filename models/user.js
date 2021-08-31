@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
-const validator = require("validator");
-const bcrypt = require("bcryptjs");
+const mongoose = require('mongoose');
+const validator = require('validator');
+const bcrypt = require('bcryptjs');
 
-const UnauthorizedError = require("../errors/unauthorized");
+const UnauthorizedError = require('../errors/unauthorized');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
     validate: {
       validator: (v) => validator.isEmail(v),
-      message: "Неправильный формат почты",
+      message: 'Неправильный формат почты',
     },
   },
   password: {
@@ -28,8 +28,8 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.pre("save", function (next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password')) return next();
 
   return bcrypt
     .hash(this.password, 10)
@@ -42,19 +42,19 @@ userSchema.pre("save", function (next) {
 
 userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email })
-    .select("+password")
+    .select('+password')
     .then((u) => {
       if (!u) {
-        throw new UnauthorizedError("Неверный логин или пароль.");
+        throw new UnauthorizedError('Неверный логин или пароль.');
       }
 
       return bcrypt.compare(password, u.password).then((matched) => {
         if (!matched) {
-          throw new UnauthorizedError("Неверный логин или пароль.");
+          throw new UnauthorizedError('Неверный логин или пароль.');
         }
         return u;
       });
     });
 };
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model('user', userSchema);

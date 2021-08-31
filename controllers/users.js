@@ -1,29 +1,29 @@
-const User = require("../models/user");
+const User = require('../models/user');
 
-const BadRequestError = require("../errors/bad-request");
-const NotFoundError = require("../errors/not-found");
-const ConflictError = require("../errors/conflict");
+const BadRequestError = require('../errors/bad-request');
+const NotFoundError = require('../errors/not-found');
+const ConflictError = require('../errors/conflict');
 
 const handleUpdateProfileError = (res, next) => (err) => {
   switch (err.name) {
-    case "ValidationError": {
+    case 'ValidationError': {
       next(
         new BadRequestError(
-          "При обновлении профиля переданы некорректные данные."
-        )
+          'При обновлении профиля переданы некорректные данные.',
+        ),
       );
       break;
     }
-    case "CastError": {
+    case 'CastError': {
       next(
-        new BadRequestError("При обновления профиля передан некорректный _id.")
+        new BadRequestError('При обновления профиля передан некорректный _id.'),
       );
       break;
     }
-    case "MongoError": {
+    case 'MongoError': {
       if (err.code === 11000) {
         next(
-          new ConflictError("Пользователь с таким email уже зарегистрирован.")
+          new ConflictError('Пользователь с таким email уже зарегистрирован.'),
         );
       }
       break;
@@ -39,16 +39,16 @@ module.exports.getUserInfo = (req, res, next) => {
   User.findById(userId)
     .then((u) => {
       if (!u) {
-        throw new NotFoundError("Пользователь по указанному _id не найден");
+        throw new NotFoundError('Пользователь по указанному _id не найден');
       }
       res.send({ data: u });
     })
     .catch((err) => {
-      if (err.name === "CastError") {
+      if (err.name === 'CastError') {
         next(
           new BadRequestError(
-            "При получении данных о пользователе передан некорректный _id"
-          )
+            'При получении данных о пользователе передан некорректный _id',
+          ),
         );
       }
       next(err);
@@ -61,7 +61,7 @@ module.exports.patchUserInfo = (req, res, next) => {
   })
     .then((profile) => {
       if (!profile) {
-        throw new NotFoundError("Пользователь с указанным _id не найден");
+        throw new NotFoundError('Пользователь с указанным _id не найден');
       }
       res.send({ data: profile });
     })
