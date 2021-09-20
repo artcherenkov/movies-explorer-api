@@ -3,6 +3,7 @@ const ALLOWED_CORS = [
   'https://praktikum.tk',
   'http://praktikum.tk',
   'http://localhost:3000',
+  'https://movies-explorer.online',
 ];
 
 module.exports = (req, res, next) => {
