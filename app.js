@@ -20,6 +20,7 @@ mongoose.connect(DB_URL, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
+  useUnifiedTopology: true,
 });
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
